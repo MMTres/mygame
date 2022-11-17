@@ -1,6 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from random import randint
+import random
 from math import sin, pi
 from time import sleep
 
@@ -24,7 +24,8 @@ class Puffer(Sprite):
 
         # start each new puffer on the left of the screen in a random spot
         self.rect.x = self.screen_rect.right
-        self.rect.y = randint(0, self.screen_rect.bottom)
+        self.rect.y = random.randint(0, self.screen_rect.bottom)
+        self.ycopy = self.rect.y
 
         #initial size of the fish
         self.size = 100
@@ -58,11 +59,17 @@ class Puffer(Sprite):
         trig_list = [pi/4, pi/2, 3*pi/4, pi, 5*pi/4, 3*pi/2, 7*pi/4, 2*pi]
 
         self.rect.x -= 10
-        self.rect.y = 100 + 50*sin(trig_list[self.n])
+        self.rect.y = self.ycopy + 50*sin(trig_list[self.n])
         if self.n < 7:
             self.n = self.n+1
         else:
             self.n=0
+
+    def reset(self):
+        self.rect.x = self.screen_rect.right
+        self.rect.y = random.randint(0, self.screen_rect.bottom)
+        self.ycopy = self.rect.y
+
 
 
 

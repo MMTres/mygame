@@ -33,8 +33,13 @@ class LittleFish(Sprite):
     #move the fish
     def move(self):
         self.hit_edge()
-        self.rect.x += 10
-        self.rect.y += 10 * tan(self.theta)
+        self.rect.x += 20
+        self.rect.y += 20 * tan(self.theta)
+
+    def reset(self):
+        self.rect.x = self.screen_rect.left
+        self.rect.y = randint(0, self.screen_rect.bottom)
+        self.theta = 0
 
     #if the fish hits the top or bottom of the screen, make it bounce off
     def hit_edge(self):

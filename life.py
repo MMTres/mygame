@@ -16,7 +16,7 @@ class Life(Sprite):
 
         # start each new puffer on the top right of the screen
         self.rect.x = self.screen_rect.left
-        self.rect.y = self.screen_rect.top
+        self.rect.y = self.screen_rect.top + 10
 
     #print the life
     def blitme(self):

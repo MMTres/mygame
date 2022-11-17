@@ -8,5 +8,9 @@ class Settings:
         self.screen_height = 600
         self.bg_color = (255,255,255)
 
-        # alien settings
-        self.fleet_drop_speed = 1
+
+        # initially have 3 lives
+        self.lives = 3
+
+        #initially have a score of 0
+        self.score = 0
