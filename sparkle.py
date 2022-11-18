@@ -18,13 +18,11 @@ class Sparkle(Sprite):
         self.image = pygame.transform.scale(self.image, (25, 25))
         self.rect = self.image.get_rect()
 
-        # start each new puffer on the left of the screen in a random spot
-        self.rect.x = 0
-        self.rect.y = 0
+        # start each new sparkle on the diver
+        self.rect.x = uts.diver.rect.x
+        self.rect.y = uts.diver.rect.y
 
-        #initialize the sparkle to be off
-        self.sparkleon = False
-
+        self.pos = True
         # initialize the angle the sparkle will be traveling at
         self.theta = 0
 
@@ -34,8 +32,12 @@ class Sparkle(Sprite):
 
     # move the sparkle
     def move(self):
-        self.hit_edge()
-        self.rect.x += 20
-        self.rect.y += 20 * tan(self.theta)
+        if self.pos:
+            self.rect.x += 20
+            self.rect.y += 20 * tan(self.theta)
+        else:
+            self.rect.x -= 20
+            self.rect.y -= 20 * tan(self.theta)
+
 
 

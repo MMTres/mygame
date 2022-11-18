@@ -32,12 +32,12 @@ class UnderTheSea:
         #initialize the sprites
         self.puffer = Puffer(self)
         self.diver = Diver(self)
-        self.sparkle = Sparkle(self)
         self.lf = LittleFish(self)
         self.l = Life(self)
         self.d = LostLife(self)
         self.smart_fish()
         self.bubbles = Bubbles(self)
+        self.sparkleon = False
 
     def run_game(self):
         while True:
@@ -47,10 +47,12 @@ class UnderTheSea:
             self._check_events()
             self.update_little_fish()
             self.update_diver()
+            self.check_mouse()
             self.update_sparkle()
             self.update_score()
             self.update_lives()
             self.bubbles.blitme()
+            self.new_level()
 
 
             pygame.display.flip()
@@ -79,8 +81,10 @@ class UnderTheSea:
             self.puffer.reset()
 
     def update_sparkle(self):
-        if self.sparkle.sparkleon:
+        if self.sparkleon:
             self.sparkle.blitme()
+            if self.bubbles.rect.x < self.diver.rect.x:
+                self.sparkle.pos = False
             self.sparkle.move()
             self._caught_bubbles()
 
@@ -96,19 +100,18 @@ class UnderTheSea:
         self.lf.theta = atan(change_position[1]/change_position[0])
         print(self.lf.theta)
 
-    def _check_mouse(self):
+    def check_mouse(self):
         mouse = pygame.mouse.get_pos()
-        if self.bubbles.rect.colliderect(mouse):
-            self.sparkle.sparkleon = True
-            bubble_position = [self.bubble.rect.x, self.bubble.rect.y]
-            sparkle_position = [self.diver.rect.x, self.bubble.rect.y]
+        if self.bubbles.rect.collidepoint(mouse):
+            self.sparkleon = True
+            self.sparkle = Sparkle(self)
+            bubble_position = [self.bubbles.rect.x, self.bubbles.rect.y]
+            sparkle_position = [self.sparkle.rect.x, self.sparkle.rect.y]
             change_position = []
             for i in range(2):
                 change_position.append(bubble_position[i] - sparkle_position[i])
             print(change_position)
             self.sparkle.theta = atan(change_position[1] / change_position[0])
-
-
 
     def _check_events(self):
         """respond to keypresses and mouse events"""
@@ -133,6 +136,8 @@ class UnderTheSea:
         #if so lose a life
         if self.puffer.rect.colliderect(self.diver.rect) or self.lf.rect.colliderect(self.diver.rect):
             self.diver.restart_diver()
+            self.puffer.reset()
+            self.lf.reset()
             self.settings.lives -= 1
 
     def _caught_bubbles(self):
@@ -140,13 +145,23 @@ class UnderTheSea:
         #check for any fish that have hit the diver
         #if so lose a life
         if self.sparkle.rect.colliderect(self.bubbles.rect):
-            self.sparkle.sparkleon = False
+            self.sparkleon = False
             self.settings.score += 10
+            self.bubbles.reset()
 
+    def new_level(self):
+        if self.settings.score != 0 and self.settings.score % 100 == 0:
+            self.settings.score = self.settings.score + 5
+            font = pygame.font.SysFont('arial', 20)
+            img = font.render(f"5 bonus points! Next Level!", True, [200, 0, 100])
+            self.screen.blit(img, (300,300))
+            self.puffer.speed += 1
+            print(self.puffer.speed)
+            self.lf.speed += 1
 
     def update_score(self):
         font = pygame.font.SysFont('arial', 20)
-        img = font.render(f"Score: {score}", True, (255, 0, 100))
+        img = font.render(f"Score: {self.settings.score}", True, [200, 0, 100])
         self.screen.blit(img, (20, 20))
 
     def update_lives(self):

@@ -26,6 +26,8 @@ class LittleFish(Sprite):
         #initialize the angle the fish will be traveling at
         self.theta = 0
 
+        self.speed = 1
+
     #print the puffer
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -33,8 +35,8 @@ class LittleFish(Sprite):
     #move the fish
     def move(self):
         self.hit_edge()
-        self.rect.x += 20
-        self.rect.y += 20 * tan(self.theta)
+        self.rect.x += 10 + 10* self.speed
+        self.rect.y += (10 + 10* self.speed) * tan(self.theta)
 
     def reset(self):
         self.rect.x = self.screen_rect.left

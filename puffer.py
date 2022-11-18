@@ -36,6 +36,8 @@ class Puffer(Sprite):
         #used for sin curve for puffer
         self.n =0
 
+        self.speed = 1
+
     #pring the puffer
     def blitme(self):
         self.screen.blit(self.image2, self.rect)
@@ -58,7 +60,7 @@ class Puffer(Sprite):
     def move(self):
         trig_list = [pi/4, pi/2, 3*pi/4, pi, 5*pi/4, 3*pi/2, 7*pi/4, 2*pi]
 
-        self.rect.x -= 10
+        self.rect.x -= 5 + self.speed * 5
         self.rect.y = self.ycopy + 50*sin(trig_list[self.n])
         if self.n < 7:
             self.n = self.n+1

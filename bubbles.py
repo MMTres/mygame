@@ -13,16 +13,21 @@ class Bubbles(Sprite):
 
         #load the bubble image and set its rect attribute
 
-        self.image = pygame.image.load('bubbles3.png')
+        self.image = pygame.image.load('bubbles2.png')
         self.image = pygame.transform.scale(self.image, (75, 75))
         self.rect = self.image.get_rect()
 
 
         # start each new puffer on the left of the screen in a random spot
-        self.rect.x = randint(0, self.screen_rect.right)
-        self.rect.y = randint(0, self.screen_rect.bottom)
+        self.rect.x = randint(0, self.screen_rect.right -10)
+        self.rect.y = randint(0, self.screen_rect.bottom -10)
 
     #print the bubbles
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+
+    def reset(self):
+        self.rect.x = randint(0, self.screen_rect.right)
+        self.rect.y = randint(0, self.screen_rect.bottom)
+
 
