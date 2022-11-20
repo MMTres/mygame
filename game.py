@@ -128,7 +128,7 @@ class UnderTheSea:
             change_position = []
             for i in range(2):
                 change_position.append(bubble_position[i] - sparkle_position[i])
-            if change_position[0] = 0:
+            if change_position[0] == 0:
                 self.sparkle.vertical = True
             self.sparkle.theta = atan(change_position[1] / change_position[0])
 
@@ -154,6 +154,8 @@ class UnderTheSea:
         #check for any fish that have hit the diver
         #if so lose a life
         if self.puffer.rect.colliderect(self.diver.rect) or self.lf.rect.colliderect(self.diver.rect):
+            lost_life_sound = pygame.mixer.Sound("lostlife.wav")
+            pygame.mixer.Sound.play(lost_life_sound)
             self.diver.restart_diver()
             self.puffer.reset()
             self.lf.reset()
@@ -164,6 +166,8 @@ class UnderTheSea:
         #check if sparkle captured bubbles
         #if so increase score
         if self.sparkle.rect.colliderect(self.bubbles.rect):
+            points_sound = pygame.mixer.Sound("sparkle.wav")
+            pygame.mixer.Sound.play(points_sound)
             self.sparkleon = False
             self.settings.score += 10
             self.bubbles.reset()
@@ -201,7 +205,7 @@ class UnderTheSea:
             self.l.rect.x = self.screen.get_width() - 75 - 50 * i
             x_value +=1
             self.l.blitme()
-        lost_lives = 3 - self.settings.lives
+        lost_lives = 5 - self.settings.lives
         for i in range(lost_lives):
             self.d.rect.x = self.screen.get_width() -75 -50 *x_value - 50 * i
             self.d.blitme()

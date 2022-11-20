@@ -8,9 +8,8 @@ class Settings:
         self.screen_height = 600
         self.bg_color = (255,255,255)
 
-
-        # initially have 3 lives
-        self.lives = 3
+        # initially have 5 lives
+        self.lives = 5
 
         #initially have a score of 0
-        self.score = 80
+        self.score = 0

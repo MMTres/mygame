@@ -22,10 +22,11 @@ class Sparkle(Sprite):
         self.rect.x = uts.diver.rect.x
         self.rect.y = uts.diver.rect.y
 
-        self.pos = True
         # initialize the angle the sparkle will be traveling at
+        self.pos = True
         self.theta = 0
 
+        # variable to determine if sparkle will be traveling vertically
         self.vertical = False
 
     # print the sparkle
