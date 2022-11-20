@@ -14,7 +14,7 @@ class LittleFish(Sprite):
 
         #load the puffer image and set its rect attribute
 
-        self.image = pygame.image.load('fishTile_073.png')
+        self.image = pygame.image.load('fishTile_075.png')
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
 

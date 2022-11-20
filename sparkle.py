@@ -26,18 +26,23 @@ class Sparkle(Sprite):
         # initialize the angle the sparkle will be traveling at
         self.theta = 0
 
+        self.vertical = False
+
     # print the sparkle
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
     # move the sparkle
     def move(self):
-        if self.pos:
-            self.rect.x += 20
-            self.rect.y += 20 * tan(self.theta)
+        if self.vertical:
+            self.rect.y += 20
         else:
-            self.rect.x -= 20
-            self.rect.y -= 20 * tan(self.theta)
+            if self.pos:
+                self.rect.x += 20
+                self.rect.y += 20 * tan(self.theta)
+            else:
+                self.rect.x -= 20
+                self.rect.y -= 20 * tan(self.theta)
 
 
 

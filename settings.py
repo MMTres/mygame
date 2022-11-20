@@ -13,4 +13,4 @@ class Settings:
         self.lives = 3
 
         #initially have a score of 0
-        self.score = 0
+        self.score = 80

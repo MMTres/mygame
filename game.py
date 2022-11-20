@@ -12,6 +12,7 @@ from life import Life
 from lostlife import LostLife
 from bubbles import Bubbles
 from sparkle import Sparkle
+from specialbubbles import SpecialBubbles
 
 
 class UnderTheSea:
@@ -38,6 +39,8 @@ class UnderTheSea:
         self.smart_fish()
         self.bubbles = Bubbles(self)
         self.sparkleon = False
+        #self.spon = False
+        self.sb = SpecialBubbles(self)
 
     def run_game(self):
         while True:
@@ -52,6 +55,7 @@ class UnderTheSea:
             self.update_score()
             self.update_lives()
             self.bubbles.blitme()
+            #self.update_sp_bubbles()v
             self.new_level()
 
 
@@ -76,6 +80,7 @@ class UnderTheSea:
         self.puffer.blitme()
         self.puffer.change_puffer_size()
         self.puffer.move()
+        print(self.puffer.speed)
         sleep(0.05)
         if self.puffer.rect.x == self.screen.get_rect().left:
             self.puffer.reset()
@@ -88,6 +93,21 @@ class UnderTheSea:
             self.sparkle.move()
             self._caught_bubbles()
 
+    #def update_sp_bubbles(self):
+        #self.are_special_bubbles()
+        #self.add_special_bubbles()
+        #self._caught_sp()
+
+    #def are_special_bubbles(self):
+        #delay = random.randint(1000, 10000)
+        #pygame.time.delay(delay)
+        #self.spon = True
+        #pygame.time.delay(3500)
+        #self.spon = False
+
+    def add_special_bubbles(self):
+        if self.spon == True:
+            self.sp.blitme()
 
     def smart_fish(self):
         """make the fish track the diver and swim towards them"""
@@ -96,9 +116,7 @@ class UnderTheSea:
         change_position = []
         for i in range(2):
             change_position.append(diver_position[i]-fish_position[i])
-        print(change_position)
         self.lf.theta = atan(change_position[1]/change_position[0])
-        print(self.lf.theta)
 
     def check_mouse(self):
         mouse = pygame.mouse.get_pos()
@@ -110,7 +128,8 @@ class UnderTheSea:
             change_position = []
             for i in range(2):
                 change_position.append(bubble_position[i] - sparkle_position[i])
-            print(change_position)
+            if change_position[0] = 0:
+                self.sparkle.vertical = True
             self.sparkle.theta = atan(change_position[1] / change_position[0])
 
     def _check_events(self):
@@ -141,23 +160,33 @@ class UnderTheSea:
             self.settings.lives -= 1
 
     def _caught_bubbles(self):
-        """respond to bullet-alien collisions"""
-        #check for any fish that have hit the diver
-        #if so lose a life
+        """respond to bubble sparkle collisions"""
+        #check if sparkle captured bubbles
+        #if so increase score
         if self.sparkle.rect.colliderect(self.bubbles.rect):
             self.sparkleon = False
             self.settings.score += 10
             self.bubbles.reset()
 
+    def _caught_sp(self):
+        """respond to bullet-alien collisions"""
+        # check if sparkle hit special bubbles
+        # if so, regain a life
+        if self.sparkle.rect.colliderect(self.sb.rect):
+            self.sparkleon = False
+            self.settings.lives += 1
+            self.spon = False
+
+
     def new_level(self):
         if self.settings.score != 0 and self.settings.score % 100 == 0:
-            self.settings.score = self.settings.score + 5
-            font = pygame.font.SysFont('arial', 20)
-            img = font.render(f"5 bonus points! Next Level!", True, [200, 0, 100])
-            self.screen.blit(img, (300,300))
+            print("yes")
+            self.settings.score = self.settings.score + 10
             self.puffer.speed += 1
-            print(self.puffer.speed)
             self.lf.speed += 1
+            self.puffer.reset()
+            self.lf.reset()
+
 
     def update_score(self):
         font = pygame.font.SysFont('arial', 20)
@@ -167,7 +196,7 @@ class UnderTheSea:
     def update_lives(self):
         self._check_fish_diver_collisions()
         x_value = 0
-        print(self.settings.lives)
+
         for i in range(self.settings.lives):
             self.l.rect.x = self.screen.get_width() - 75 - 50 * i
             x_value +=1
@@ -175,8 +204,6 @@ class UnderTheSea:
         lost_lives = 3 - self.settings.lives
         for i in range(lost_lives):
             self.d.rect.x = self.screen.get_width() -75 -50 *x_value - 50 * i
-            print(self.d.rect.x)
-            print(self.d.rect.y)
             self.d.blitme()
 
 if __name__ == '__main__':

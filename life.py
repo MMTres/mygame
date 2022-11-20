@@ -10,7 +10,7 @@ class Life(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         #load the lifeimage and set its rect attribute
-        self.image = pygame.image.load('fishTile_079.png')
+        self.image = pygame.image.load('fishTile_077.png')
         self.image = pygame.transform.scale(self.image, (35, 35))
         self.rect = self.image.get_rect()
 
