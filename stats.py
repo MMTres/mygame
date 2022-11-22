@@ -4,7 +4,7 @@ class Stats:
     def __init__(self, uts):
         """initialize stats"""
         self.settings = uts.settings
-        self.game_active = True
+        self.game_active = False
         self.high_score = 0
         self.level = 1
         self.reset_stats()
@@ -13,4 +13,5 @@ class Stats:
 
     def reset_stats(self):
         self.livesleft = self.settings.lives
+        self.score = 0
 

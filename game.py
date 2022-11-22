@@ -14,6 +14,7 @@ from bubbles import Bubbles
 from sparkle import Sparkle
 from stats import Stats
 from specialbubbles import SpecialBubbles
+from play import PlayButton
 
 
 class UnderTheSea:
@@ -31,26 +32,37 @@ class UnderTheSea:
         self.image = pygame.transform.scale(self.image, (1200, 600))
         self.screen.blit(self.image, (0, 0))
 
+
         #initialize the sprites
         self.puffer = Puffer(self)
         self.diver = Diver(self)
         self.lf = LittleFish(self)
         self.l = Life(self)
         self.d = LostLife(self)
-        self.smart_fish()
         self.bubbles = Bubbles(self)
+
+
+        #initially there is no sparkle to shoot
         self.sparkleon = False
+
+        #initialize the game statistics
         self.stats = Stats(self)
+
         #self.spon = False
         self.sb = SpecialBubbles(self)
+
+        #create the play button
+        self.play = PlayButton(self)
+
+        self.smart_fish()
 
     def run_game(self):
         while True:
 
-
             self.reset_screen()
             self._check_events()
             if self.stats.game_active == True:
+
                 self.update_puffer()
                 self.update_little_fish()
                 self.update_diver()
@@ -62,19 +74,27 @@ class UnderTheSea:
                 self.bubbles.blitme()
                 #self.update_sp_bubbles()v
                 self.new_level()
+            else:
+                self.image2 = pygame.image.load('sand.png')
+                self.image2 = pygame.transform.scale(self.image2, (1200, 600))
+                self.screen.blit(self.image2, (0, 0))
+                self.play.draw_button()
 
 
             pygame.display.flip()
 
     def reset_screen(self):
+        """reset the screen's background"""
         self.screen.fill([255, 255, 255])
         self.screen.blit(self.image, (0, 0))
 
     def update_diver(self):
+        """update the diver's location"""
         self.diver.check_edges()
         self.diver.blitme()
 
     def update_little_fish(self):
+        """update the small fish's postion"""
         self.lf.move()
         self.lf.blitme()
         if self.lf.rect.x == self.screen.get_rect().right:
@@ -82,6 +102,7 @@ class UnderTheSea:
             self.smart_fish()
 
     def update_puffer(self):
+        """update the puffers size and position"""
         self.puffer.blitme()
         self.puffer.change_puffer_size()
         self.puffer.move()
@@ -91,6 +112,7 @@ class UnderTheSea:
 
 
     def update_sparkle(self):
+        """if there is a sparkle, send it to the bubble"""
         if self.sparkleon:
             self.sparkle.blitme()
             if self.bubbles.rect.x < self.diver.rect.x:
@@ -124,6 +146,7 @@ class UnderTheSea:
         self.lf.theta = atan(change_position[1]/change_position[0])
 
     def check_mouse(self):
+        """check if the mouse is over the bubbles, if so create a sparkle to shoot at it"""
         mouse = pygame.mouse.get_pos()
         if self.bubbles.rect.collidepoint(mouse):
             self.sparkleon = True
@@ -133,6 +156,7 @@ class UnderTheSea:
             change_position = []
             for i in range(2):
                 change_position.append(bubble_position[i] - sparkle_position[i])
+            #create the angle the sparkle will travel in in order to capture the bubble
             self.sparkle.theta = atan(change_position[1] / change_position[0])
 
 
@@ -143,6 +167,9 @@ class UnderTheSea:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
+                self.if_play(mouse)
 
     def _check_keydown_events(self, event):
         """respond to keypresses"""
@@ -153,8 +180,18 @@ class UnderTheSea:
         elif event.key == pygame.K_q:
             sys.exit()
 
+    def if_play(self, mouse):
+        """Start a new game when the player clicks the play button"""
+        if self.play.rect.collidepoint(mouse):
+            self.stats.reset_stats()
+            self.lf.reset()
+            self.puffer.reset()
+            self.bubbles.reset()
+            self.stats.game_active =True
+
+
     def _check_fish_diver_collisions(self):
-        """respond to bullet-alien collisions"""
+        """respond to fish and diver collisions"""
         #check for any fish that have hit the diver
         #if so lose a life
         if self.puffer.rect.colliderect(self.diver.rect) or self.lf.rect.colliderect(self.diver.rect):
@@ -163,6 +200,7 @@ class UnderTheSea:
             self.diver.restart_diver()
             self.puffer.reset()
             self.lf.reset()
+            self.smart_fish()
             self.stats.livesleft -= 1
 
     def _caught_bubbles(self):
@@ -188,6 +226,7 @@ class UnderTheSea:
 
 
     def new_level(self):
+        """increase the difficulty every time the score hits a new multiple of 100"""
         if self.stats.score != 0 and self.stats.score % 100 == 0:
             self.stats.score = self.stats.score + 10
             self.puffer.speed += 1
@@ -196,10 +235,12 @@ class UnderTheSea:
             self.lf.reset()
 
     def high_score(self):
+        """update the high score"""
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
 
     def display_high_score(self):
+        """show the current high score on the screen"""
         self.high_score()
         font = pygame.font.SysFont('arial', 20)
         img = font.render(f"High Score: {self.stats.high_score}", True, [200, 0, 100])
@@ -207,20 +248,24 @@ class UnderTheSea:
 
 
     def update_score(self):
+        """display the current score on the screen"""
         font = pygame.font.SysFont('arial', 20)
         img = font.render(f"Score: {self.stats.score}", True, [200, 0, 100])
         self.screen.blit(img, (20, 20))
 
     def update_lives(self):
+        """update the number of lives the user has remaining"""
         self._check_fish_diver_collisions()
         x_value = 0
+        #if no lives are left, the game is over
         if self.stats.livesleft == 0:
             self.stats.game_active = False
-
+        #print small blue fish to show the number of lives remaining
         for i in range(self.stats.livesleft):
             self.l.rect.x = self.screen.get_width() - 75 - 50 * i
             x_value +=1
             self.l.blitme()
+        #print fish skeletons to show the number of lives lost
         lost_lives = 5 - self.stats.livesleft
         for i in range(lost_lives):
             self.d.rect.x = self.screen.get_width() -75 -50 *x_value - 50 * i
