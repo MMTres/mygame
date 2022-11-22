@@ -12,6 +12,7 @@ from life import Life
 from lostlife import LostLife
 from bubbles import Bubbles
 from sparkle import Sparkle
+from stats import Stats
 from specialbubbles import SpecialBubbles
 
 
@@ -39,24 +40,28 @@ class UnderTheSea:
         self.smart_fish()
         self.bubbles = Bubbles(self)
         self.sparkleon = False
+        self.stats = Stats(self)
         #self.spon = False
         self.sb = SpecialBubbles(self)
 
     def run_game(self):
         while True:
 
+
             self.reset_screen()
-            self.update_puffer()
             self._check_events()
-            self.update_little_fish()
-            self.update_diver()
-            self.check_mouse()
-            self.update_sparkle()
-            self.update_score()
-            self.update_lives()
-            self.bubbles.blitme()
-            #self.update_sp_bubbles()v
-            self.new_level()
+            if self.stats.game_active == True:
+                self.update_puffer()
+                self.update_little_fish()
+                self.update_diver()
+                self.check_mouse()
+                self.update_sparkle()
+                self.update_score()
+                self.display_high_score()
+                self.update_lives()
+                self.bubbles.blitme()
+                #self.update_sp_bubbles()v
+                self.new_level()
 
 
             pygame.display.flip()
@@ -84,6 +89,7 @@ class UnderTheSea:
         sleep(0.05)
         if self.puffer.rect.x == self.screen.get_rect().left:
             self.puffer.reset()
+
 
     def update_sparkle(self):
         if self.sparkleon:
@@ -132,6 +138,7 @@ class UnderTheSea:
                 self.sparkle.vertical = True
             self.sparkle.theta = atan(change_position[1] / change_position[0])
 
+
     def _check_events(self):
         """respond to keypresses and mouse events"""
         for event in pygame.event.get():
@@ -159,7 +166,7 @@ class UnderTheSea:
             self.diver.restart_diver()
             self.puffer.reset()
             self.lf.reset()
-            self.settings.lives -= 1
+            self.stats.livesleft -= 1
 
     def _caught_bubbles(self):
         """respond to bubble sparkle collisions"""
@@ -169,7 +176,8 @@ class UnderTheSea:
             points_sound = pygame.mixer.Sound("sparkle.wav")
             pygame.mixer.Sound.play(points_sound)
             self.sparkleon = False
-            self.settings.score += 10
+            self.stats.score += 10
+
             self.bubbles.reset()
 
     def _caught_sp(self):
@@ -183,29 +191,41 @@ class UnderTheSea:
 
 
     def new_level(self):
-        if self.settings.score != 0 and self.settings.score % 100 == 0:
+        if self.stats.score != 0 and self.stats.score % 100 == 0:
             print("yes")
-            self.settings.score = self.settings.score + 10
+            self.stats.score = self.stats.score + 10
             self.puffer.speed += 1
             self.lf.speed += 1
             self.puffer.reset()
             self.lf.reset()
 
+    def high_score(self):
+        if self.stats.score > self.stats.high_score:
+            self.stats.high_score = self.stats.score
+
+    def display_high_score(self):
+        self.high_score()
+        font = pygame.font.SysFont('arial', 20)
+        img = font.render(f"High Score: {self.stats.high_score}", True, [200, 0, 100])
+        self.screen.blit(img, (20, 50))
+
 
     def update_score(self):
         font = pygame.font.SysFont('arial', 20)
-        img = font.render(f"Score: {self.settings.score}", True, [200, 0, 100])
+        img = font.render(f"Score: {self.stats.score}", True, [200, 0, 100])
         self.screen.blit(img, (20, 20))
 
     def update_lives(self):
         self._check_fish_diver_collisions()
         x_value = 0
+        if self.stats.livesleft == 0:
+            self.stats.game_active = False
 
-        for i in range(self.settings.lives):
+        for i in range(self.stats.livesleft):
             self.l.rect.x = self.screen.get_width() - 75 - 50 * i
             x_value +=1
             self.l.blitme()
-        lost_lives = 5 - self.settings.lives
+        lost_lives = 5 - self.stats.livesleft
         for i in range(lost_lives):
             self.d.rect.x = self.screen.get_width() -75 -50 *x_value - 50 * i
             self.d.blitme()

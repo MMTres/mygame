@@ -11,5 +11,3 @@ class Settings:
         # initially have 5 lives
         self.lives = 5
 
-        #initially have a score of 0
-        self.score = 0

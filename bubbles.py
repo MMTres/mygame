@@ -19,8 +19,8 @@ class Bubbles(Sprite):
 
 
         # start each new puffer on the left of the screen in a random spot
-        self.rect.x = randint(0, self.screen_rect.right -20)
-        self.rect.y = randint(0, self.screen_rect.bottom -20)
+        self.rect.x = randint(0, self.screen_rect.right -50)
+        self.rect.y = randint(0, self.screen_rect.bottom -50)
 
     #print the bubbles
     def blitme(self):
