@@ -85,7 +85,6 @@ class UnderTheSea:
         self.puffer.blitme()
         self.puffer.change_puffer_size()
         self.puffer.move()
-        print(self.puffer.speed)
         sleep(0.05)
         if self.puffer.rect.x == self.screen.get_rect().left:
             self.puffer.reset()
@@ -134,8 +133,6 @@ class UnderTheSea:
             change_position = []
             for i in range(2):
                 change_position.append(bubble_position[i] - sparkle_position[i])
-            if change_position[0] == 0:
-                self.sparkle.vertical = True
             self.sparkle.theta = atan(change_position[1] / change_position[0])
 
 
@@ -192,7 +189,6 @@ class UnderTheSea:
 
     def new_level(self):
         if self.stats.score != 0 and self.stats.score % 100 == 0:
-            print("yes")
             self.stats.score = self.stats.score + 10
             self.puffer.speed += 1
             self.lf.speed += 1

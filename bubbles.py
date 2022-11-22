@@ -27,7 +27,13 @@ class Bubbles(Sprite):
         self.screen.blit(self.image, self.rect)
 
     def reset(self):
-        self.rect.x = randint(0, self.screen_rect.right)
-        self.rect.y = randint(0, self.screen_rect.bottom)
+        self.rect.x = randint(0, self.screen_rect.right -50)
+        self.rect.y = randint(0, self.screen_rect.bottom-50)
+        if self.rect.x in range(500, 700):
+            if self.rect.x < 600:
+                self.rect.x -= 100
+            else:
+                self.rect.x += 100
+        print(self.rect.x)
 
 

@@ -26,8 +26,6 @@ class Sparkle(Sprite):
         self.pos = True
         self.theta = 0
 
-        # variable to determine if sparkle will be traveling vertically
-        self.vertical = False
 
     # print the sparkle
     def blitme(self):
@@ -35,15 +33,12 @@ class Sparkle(Sprite):
 
     # move the sparkle
     def move(self):
-        if self.vertical:
-            self.rect.y += 20
+        if self.pos:
+            self.rect.x += 20
+            self.rect.y += 20 * tan(self.theta)
         else:
-            if self.pos:
-                self.rect.x += 20
-                self.rect.y += 20 * tan(self.theta)
-            else:
-                self.rect.x -= 20
-                self.rect.y -= 20 * tan(self.theta)
+            self.rect.x -= 20
+            self.rect.y -= 20 * tan(self.theta)
 
 
 
