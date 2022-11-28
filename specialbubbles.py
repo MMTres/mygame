@@ -14,7 +14,7 @@ class SpecialBubbles(Sprite):
 
         #load the bubble image and set its rect attribute
 
-        self.image = pygame.image.load('greenbubbles.png')
+        self.image = pygame.image.load('images/greenbubbles.png')
         self.image = pygame.transform.scale(self.image, (75, 75))
         self.rect = self.image.get_rect()
 
@@ -23,11 +23,13 @@ class SpecialBubbles(Sprite):
         self.rect.x = randint(0, self.screen_rect.right -10)
         self.rect.y = randint(0, self.screen_rect.bottom -10)
 
-    #print the bubbles
+
     def blitme(self):
+        """print the bubbles"""
         self.screen.blit(self.image, self.rect)
 
     def reset(self):
-        self.rect.x = randint(0, self.screen_rect.right)
-        self.rect.y = randint(0, self.screen_rect.bottom)
+        """reset the bubbles to a random spot on the screen"""
+        self.rect.x = randint(0, self.screen_rect.right -50)
+        self.rect.y = randint(0, self.screen_rect.bottom-50)
 

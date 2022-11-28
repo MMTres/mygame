@@ -10,8 +10,8 @@ class Diver:
         self.settings = uts.settings
         self.screen_rect = uts.screen.get_rect()
 
-        # load the ship image and get its rect
-        self.image = pygame.image.load('diver.png')
+        # load the diver image and get its rect
+        self.image = pygame.image.load('images/diver.png')
         self.image = pygame.transform.scale(self.image, (75,75))
         self.rect = self.image.get_rect()
 
@@ -21,6 +21,8 @@ class Diver:
 
         #store a decimal value for the diver's vertical speed
         self.diver_speed = 0
+
+        #initialize the diver's gravity
         self.gravity = False
 
 
@@ -37,9 +39,11 @@ class Diver:
         self.screen.blit(self.image, self.rect)
 
     def jump(self):
+        """change the divers velocity when they jump"""
         self.diver_speed = -200
 
     def _gravity(self):
+        """create gravity for the diver"""
         #velocity final = velocity initial plus acceleration * time
         self.diver_speed += 100 * 0.3
         # position = velocity * time
@@ -51,4 +55,10 @@ class Diver:
             self.restart_diver()
         if self.rect.y < 0:
             self.rect.y = 0
+
+    def instruction_screen(self):
+        """print the diver to the instruction screen"""
+        self.rect.x = 300
+        self.rect.y = 150
+        self.screen.blit(self.image, self.rect)
 

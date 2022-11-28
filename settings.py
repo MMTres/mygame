@@ -1,7 +1,7 @@
 class Settings:
     """A class to store all settings for under the sea"""
     def __init__(self):
-        """Initialize the grids settings"""
+        """Initialize the settings"""
 
         # Screen settings
         self.screen_width = 1200

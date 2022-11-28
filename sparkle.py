@@ -1,8 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from random import randint
 from math import tan
-from time import sleep
 
 class Sparkle(Sprite):
     """A class to represent the sparkle that can be used to catch the bubbles"""
@@ -13,8 +11,7 @@ class Sparkle(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         #load the sparkle image and set its rect attribute
-
-        self.image = pygame.image.load('sparkle.png')
+        self.image = pygame.image.load('images/sparkle2.png')
         self.image = pygame.transform.scale(self.image, (25, 25))
         self.rect = self.image.get_rect()
 
@@ -27,18 +24,27 @@ class Sparkle(Sprite):
         self.theta = 0
 
 
-    # print the sparkle
+
     def blitme(self):
+        """print the sparkle"""
         self.screen.blit(self.image, self.rect)
 
     # move the sparkle
     def move(self):
+        """move the sparkle based on the calculated angle"""
         if self.pos:
             self.rect.x += 20
             self.rect.y += 20 * tan(self.theta)
         else:
             self.rect.x -= 20
             self.rect.y -= 20 * tan(self.theta)
+
+    def instruction_screen(self):
+        """print the sparkle to the instruction screen"""
+        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.rect.x = 1100
+        self.rect.y = 365
+        self.blitme()
 
 
 

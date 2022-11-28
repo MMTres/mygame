@@ -10,16 +10,17 @@ class Life(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         #load the lifeimage and set its rect attribute
-        self.image = pygame.image.load('fishTile_077.png')
+        self.image = pygame.image.load('images/fishTile_077.png')
         self.image = pygame.transform.scale(self.image, (35, 35))
         self.rect = self.image.get_rect()
 
-        # start each new puffer on the top right of the screen
-        self.rect.x = self.screen_rect.left
+        # put each new life on the upper right of the screen
+        self.rect.x = self.screen_rect.right
         self.rect.y = self.screen_rect.top + 10
 
-    #print the life
+
     def blitme(self):
+        """print the life"""
         self.screen.blit(self.image, self.rect)
 
 

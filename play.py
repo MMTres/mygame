@@ -14,7 +14,8 @@ class PlayButton:
         self.font = pygame.font.SysFont(None, 50)
 
         self.rect = pygame.Rect(0,0,self.width, self.height)
-        self.rect.center = self.screen_rect.center
+        self.rect.x = 550
+        self.rect.y = 450
 
         self.make_button_text()
 
