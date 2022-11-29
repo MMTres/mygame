@@ -32,8 +32,9 @@ class Diver:
         self.gravity = False
 
 
-    def blitme(self):
+    def draw(self):
         """Draw the diver at its current location"""
+        #check if the diver is experiencing gravity (if they are jumping)
         if self.gravity:
             self._gravity()
         self.screen.blit(self.image, self.rect)
@@ -44,6 +45,7 @@ class Diver:
 
     def _gravity(self):
         """create gravity for the diver"""
+        #physical code achievement
         #velocity final = velocity initial plus acceleration * time
         self.diver_speed += 100 * 0.3
         # position = velocity * time
@@ -56,9 +58,14 @@ class Diver:
         if self.rect.y < 0:
             self.rect.y = 0
 
+    def update_diver(self):
+        """update the diver's location"""
+        self.check_edges()
+        self.draw()
+
     def instruction_screen(self):
         """print the diver to the instruction screen"""
-        self.rect.x = 300
-        self.rect.y = 150
+        self.rect.x = 250
+        self.rect.y = 75
         self.screen.blit(self.image, self.rect)
 

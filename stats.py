@@ -1,9 +1,10 @@
+import pygame
 class Stats:
     """Track scores for under the sea"""
-
     def __init__(self, uts):
         """initialize stats"""
         self.settings = uts.settings
+        self.screen = uts.screen
 
         #initialize game to be inactive so the instructions screen appears
         self.game_active = False
@@ -22,6 +23,33 @@ class Stats:
 
     def reset_stats(self):
         """reset the game statistics"""
+        #high score is not reset so it will save between plays
         self.livesleft = self.settings.lives
         self.score = 0
+
+    def update_score(self):
+        """display the current score on the screen"""
+        #points r us code achievement
+        font = pygame.font.SysFont('arial', 20)
+        img = font.render(f"Score: {self.score}", True, [200, 0, 100])
+        self.screen.blit(img, (20, 20))
+
+    def update_high_score(self):
+        #over achiever code achievement
+        """update the high score"""
+        if self.score > self.high_score:
+            self.high_score = self.score
+
+    def display_high_score(self):
+        """show the current high score on the screen"""
+        #textual code achievement
+        self.update_high_score()
+        font = pygame.font.SysFont('arial', 20)
+        img = font.render(f"High Score: {self.high_score}", True, [200, 0, 100])
+        self.screen.blit(img, (20, 50))
+
+
+
+
+
 

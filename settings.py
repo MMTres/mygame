@@ -1,3 +1,4 @@
+from time import time
 class Settings:
     """A class to store all settings for under the sea"""
     def __init__(self):
@@ -10,4 +11,13 @@ class Settings:
 
         # initially have 5 lives
         self.lives = 5
+
+        # find the time the game starts
+        self.time0 = int(time())
+
+        # initially there are no special bubbles to capture
+        self.special_on = False
+
+        # initially there is no sparkle to shoot
+        self.sparkleon = False
 

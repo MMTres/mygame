@@ -18,8 +18,7 @@ class Life(Sprite):
         self.rect.x = self.screen_rect.right
         self.rect.y = self.screen_rect.top + 10
 
-
-    def blitme(self):
+    def draw(self):
         """print the life"""
         self.screen.blit(self.image, self.rect)
 

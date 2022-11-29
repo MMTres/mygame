@@ -23,15 +23,14 @@ class Sparkle(Sprite):
         self.pos = True
         self.theta = 0
 
-
-
-    def blitme(self):
+    def draw(self):
         """print the sparkle"""
         self.screen.blit(self.image, self.rect)
 
     # move the sparkle
     def move(self):
         """move the sparkle based on the calculated angle"""
+        #shooter code achievement
         if self.pos:
             self.rect.x += 20
             self.rect.y += 20 * tan(self.theta)
@@ -42,9 +41,9 @@ class Sparkle(Sprite):
     def instruction_screen(self):
         """print the sparkle to the instruction screen"""
         self.image = pygame.transform.scale(self.image, (100, 100))
-        self.rect.x = 1100
-        self.rect.y = 365
-        self.blitme()
+        self.rect.x = 1050
+        self.rect.y = 290
+        self.draw()
 
 
 

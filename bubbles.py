@@ -21,7 +21,7 @@ class Bubbles(Sprite):
         self.rect.y = randint(0, self.screen_rect.bottom -50)
 
 
-    def blitme(self):
+    def draw(self):
         """print the bubbles"""
         self.screen.blit(self.image, self.rect)
 
@@ -39,8 +39,8 @@ class Bubbles(Sprite):
 
     def instruction_screen(self):
         """print the bubbles on the instruction screen"""
-        self.rect.x = 500
-        self.rect.y = 300
-        self.blitme()
+        self.rect.x = 425
+        self.rect.y = 225
+        self.draw()
 
 

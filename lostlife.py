@@ -18,6 +18,6 @@ class LostLife(Sprite):
         self.rect.x = self.screen_rect.left
         self.rect.y = self.screen_rect.top + 10
 
-    def blitme(self):
+    def draw(self):
         """print the lost life"""
         self.screen.blit(self.image, self.rect)

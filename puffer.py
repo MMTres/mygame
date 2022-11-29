@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 import random
 from math import sin, pi
+from time import sleep
 
 class Puffer(Sprite):
     """A class to represent a single puffer in the fleet"""
@@ -37,7 +38,7 @@ class Puffer(Sprite):
         #initialize the speed of the fish
         self.speed = 1
 
-    def blitme(self):
+    def draw(self):
         """print the puffer"""
         self.screen.blit(self.image2, self.rect)
 
@@ -54,7 +55,6 @@ class Puffer(Sprite):
         else:
             self.size = self.size-10
         self.image2 = pygame.transform.scale(self.image, (self.size,self.size))
-
 
     def move(self):
         """move the puffer in a sin curve"""
@@ -82,10 +82,18 @@ class Puffer(Sprite):
 
     def instruction_screen(self):
         """print the puffer to the instruction screen"""
-        self.rect.x = 900
-        self.rect.y = 210
-        self.blitme()
+        self.rect.x = 850
+        self.rect.y = 175
+        self.draw()
 
+    def update_puffer(self):
+        """update the puffers size and position"""
+        self.draw()
+        self.change_puffer_size()
+        self.move()
+        sleep(0.05)
+        if self.rect.x == self.screen.get_rect().left:
+            self.reset()
 
 
 
