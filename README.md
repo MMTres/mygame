@@ -9,5 +9,11 @@ How to Use:
 4. There are "special bubbles" that the user can catch in order to regain a life
 5. The "special bubbles" are green, and the user can click them when the briefly appear on the screen in order to catch them
 
+Instruction Screen:
+
+![Screenshot (41)](https://user-images.githubusercontent.com/116024541/204804904-aaa0ecf5-d66a-440c-9ec5-70fe5e76e717.png)
+
+Game Screen:
+
 ![Screenshot (40)](https://user-images.githubusercontent.com/116024541/204804728-e0bdf3bd-1cf5-4697-80a1-622d46fd1aa0.png)
 
