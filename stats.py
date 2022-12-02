@@ -30,13 +30,13 @@ class Stats:
     def update_score(self):
         """display the current score on the screen"""
         #points r us code achievement
-        font = pygame.font.SysFont('arial', 20)
+        font = pygame.font.Font('myfont.ttf', 50)
         img = font.render(f"Score: {self.score}", True, [200, 0, 100])
-        self.screen.blit(img, (20, 20))
+        self.screen.blit(img, (20, 15))
 
     def update_high_score(self):
         #over achiever code achievement
-        """update the high score"""
+        """update the high score if the current score is bigger than the saved high score"""
         if self.score > self.high_score:
             self.high_score = self.score
 
@@ -44,9 +44,9 @@ class Stats:
         """show the current high score on the screen"""
         #textual code achievement
         self.update_high_score()
-        font = pygame.font.SysFont('arial', 20)
+        font = pygame.font.Font('myfont.ttf', 50)
         img = font.render(f"High Score: {self.high_score}", True, [200, 0, 100])
-        self.screen.blit(img, (20, 50))
+        self.screen.blit(img, (20, 55))
 
 
 

@@ -1,6 +1,5 @@
 import pygame
 
-
 class Diver:
     """A class to manage the diver"""
 
@@ -23,6 +22,7 @@ class Diver:
         self.diver_speed = 0
 
         #initialize the diver's gravity
+        #set to false since the diver only experiences gravity after a jump
         self.gravity = False
 
 

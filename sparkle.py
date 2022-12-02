@@ -27,14 +27,15 @@ class Sparkle(Sprite):
         """print the sparkle"""
         self.screen.blit(self.image, self.rect)
 
-    # move the sparkle
     def move(self):
         """move the sparkle based on the calculated angle"""
         #shooter code achievement
         if self.pos:
+            #sparkle moves to the right
             self.rect.x += 20
             self.rect.y += 20 * tan(self.theta)
         else:
+            #sparkle moves to the left
             self.rect.x -= 20
             self.rect.y -= 20 * tan(self.theta)
 

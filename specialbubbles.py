@@ -30,6 +30,7 @@ class SpecialBubbles(Sprite):
 
     def reset(self):
         """reset the bubbles to a random spot on the screen"""
+        #use -50 to keep them from being too close to the side of the screen
         self.rect.x = randint(0, self.screen_rect.right -50)
         self.rect.y = randint(0, self.screen_rect.bottom-50)
 
@@ -41,8 +42,9 @@ class SpecialBubbles(Sprite):
 
     def are_special_bubbles(self):
         """use a timer to turn the special bubbles on and off"""
+        #tick tock code achievement
         time1 = int(time())
-        #turn the bubbles on every 10 seconds for 3 seconds
+        #turn the bubbles on every 10 seconds for 3 seconds using modulus
         if (time1 - self.settings.time0) % 10 == 3:
             self.settings.special_on = True
         if (time1 - self.settings.time0) % 10 == 6:

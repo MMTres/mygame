@@ -31,6 +31,7 @@ class Bubbles(Sprite):
         self.rect.y = randint(0, self.screen_rect.bottom-50)
         #do not let the bubbles be directly above or below the diver
         if self.rect.x in range(500, 700):
+            #if it is above the diver, move left or right by 100
             if self.rect.x < 600:
                 self.rect.x -= 100
             else:

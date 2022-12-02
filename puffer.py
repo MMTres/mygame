@@ -33,7 +33,7 @@ class Puffer(Sprite):
         self.shrink = 1
 
         #used for sin curve for puffer
-        self.n =0
+        self.n = 0
 
         #initialize the speed of the fish
         self.speed = 1
@@ -44,11 +44,14 @@ class Puffer(Sprite):
 
     def _grow_or_shrink(self):
         """determine if the puffer is growing or shrinking"""
+        #keep the puffer size between 50 and 200
+        #if it hits one of these numbers, switch from grow to shrink or vice versa
         if self.size == 200 or self.size == 50:
             self.shrink *= -1
 
     def change_puffer_size(self):
         """change the size of the puffer"""
+        #check if the puffer should grow or shrink
         self._grow_or_shrink()
         if self.shrink == 1:
             self.size = self.size +10
@@ -59,14 +62,15 @@ class Puffer(Sprite):
     def move(self):
         """move the puffer in a sin curve"""
         trig_list = [pi/4, pi/2, 3*pi/4, pi, 5*pi/4, 3*pi/2, 7*pi/4, 2*pi]
-        #change the x position based on the puffer's speed (based on the level)
+        #change the x position based on the puffer's speed (which is controlled by the level of the game)
         self.rect.x -= 5 + self.speed * 5
         #change the y position in a sin curve
+        #use the copy of the original y position so that the fish does not continuously move up
         self.rect.y = self.ycopy + 50*sin(trig_list[self.n])
         #iterate through the trig list
-        #once the entire trig list has been passed through, start over
         if self.n < 7:
             self.n = self.n+1
+        #once the entire trig list has been passed through, start over
         else:
             self.n=0
 
@@ -92,6 +96,7 @@ class Puffer(Sprite):
         self.change_puffer_size()
         self.move()
         sleep(0.05)
+        #check if the puffer has hit the edge of the screen, if so reset to its initial position
         if self.rect.x == self.screen.get_rect().left:
             self.reset()
 

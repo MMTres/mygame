@@ -53,6 +53,7 @@ class LittleFish(Sprite):
     def hit_edge(self):
         """if the fish hits the top or bottom of the screen, make it bounce off"""
         if self.rect.bottom > self.screen_rect.bottom or self.rect.top < 0:
+            #change the angle so that the y value increases if it has been decreasing or vice versa
             self.theta = -1 * self.theta
 
     def instruction_screen(self):
@@ -76,9 +77,10 @@ class LittleFish(Sprite):
 
     def update_little_fish(self):
         """update the small fish's postion"""
+        #the walls are hard achievement
         self.move()
         self.draw()
-        # if the little fish has hit the edge of the screen,
+        # if the little fish has hit the edge of the screen, reset to its initial position
         if self.rect.x == self.screen.get_rect().right:
             self.reset()
             self.smart_fish()

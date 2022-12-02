@@ -88,6 +88,7 @@ class UnderTheSea:
         if self.settings.sparkleon:
             self.sparkle.draw()
             #if the bubble is in front of the diver, set the sparkle to travel in the positive direction
+            #if not, it moves in the negative direction
             if self.bubbles.rect.x < self.diver.rect.x:
                 self.sparkle.pos = False
             self.sparkle.move()
@@ -104,7 +105,7 @@ class UnderTheSea:
             bubble_position = [self.bubbles.rect.x, self.bubbles.rect.y]
             sparkle_position = [self.sparkle.rect.x, self.sparkle.rect.y]
             change_position = []
-            #find the change in x and y that the sparkle must travel
+            #find the change in x and y that the sparkle must travel to hit the bubbles
             for i in range(2):
                 change_position.append(bubble_position[i] - sparkle_position[i])
             #create the angle the sparkle will travel in in order to capture the bubble
@@ -138,6 +139,7 @@ class UnderTheSea:
     def if_play(self, mouse):
         """Start a new game when the player clicks the play button"""
         if self.play.rect.collidepoint(mouse):
+            #start the game with the basic attributes
             self.stats.reset_stats()
             self.lf.reset()
             self.puffer.reset()
@@ -184,15 +186,18 @@ class UnderTheSea:
     def new_level(self):
         """increase the difficulty every time the score hits a new multiple of 100"""
         #level up code achievement
+        #fancy fonts code achievement
         #update the level displayed on the screen
-        font = pygame.font.SysFont('arial', 25)
+        font = pygame.font.Font('myfont.ttf', 50)
         img = font.render(f"Level: {self.puffer.speed} ", True, [50, 0, 200])
         self.screen.blit(img, (1100, 550))
         if self.stats.score != 0 and self.stats.score % 100 == 0:
             #player gets a 10 point bonus when they hit a new level
             self.stats.score = self.stats.score + 10
+            #increase the speed of the fish
             self.puffer.speed += 1
             self.lf.speed += 1
+            # reset the fish
             self.puffer.reset()
             self.lf.reset()
 
@@ -203,7 +208,7 @@ class UnderTheSea:
         self.image2 = pygame.image.load('images/sand.png')
         self.image2 = pygame.transform.scale(self.image2, (1200, 600))
         self.screen.blit(self.image2, (0, 0))
-        #print instructions with pictures of the sprites
+        #print instructions
         font = pygame.font.SysFont('arial', 50)
         img = font.render(f"Instructions: ", True, [200, 0, 100])
         self.screen.blit(img, (75, 25))
@@ -220,6 +225,8 @@ class UnderTheSea:
         self.screen.blit(img, (100, 400))
         img = font.render(f"The fish will get faster as you go, watch out!", True,[200, 0, 100])
         self.screen.blit(img, (100, 475))
+
+        #display images of the sprites with the instructions so the player can see what they are trying to capture and avoid
         self.diver.instruction_screen()
         self.bubbles.instruction_screen()
         self.puffer.instruction_screen()
